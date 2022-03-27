@@ -7,8 +7,6 @@ phone_list = []
 now = datetime.now()
 now = now.strftime("%Y-%m-%d %H:%M:%S").replace(' ', '_')
 
-ContactList = []
-
 def filter_messages ( message ):
     if 'attached' in message:
         message = message.split('attached:', 2)[1].replace('>', '')
@@ -35,7 +33,6 @@ def saveContact ( file_name ):
                 })
     
 def saveToFile ():
-    row = 1
     wb = Workbook()
     wb['Sheet'].title = "List of shared contacts"
     sh1 = wb.active
@@ -44,6 +41,7 @@ def saveToFile ():
         sh1['B{}'.format(i+1)].value = phone_list[i-1].get('phone')
     wb.save("shared_people.xlsx")
     
+# main function as file runs
 with open('whatsappfile\_chat.txt', 'r', encoding='utf8') as file:
     lines = file.read().splitlines()
     
@@ -51,4 +49,5 @@ with open('whatsappfile\_chat.txt', 'r', encoding='utf8') as file:
         contactFile = filter_messages( line )
         if contactFile:
             saveContact( contactFile )
+            
     saveToFile()
